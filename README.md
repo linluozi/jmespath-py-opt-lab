@@ -14,7 +14,7 @@ Uncached parse of a single raw-string literal (`'<payload>'`), median of 5 timed
 | medium | 32,768 B | 7.742 ms | 0.154 ms | **50.36x** |
 | large | 131,072 B | 30.878 ms | 0.503 ms | **61.43x** |
 
-Median speedup across the three scales: **50.36x**. The gain comes from one function, `jmespath/lexer.py::Lexer._consume_until` (32 insertions, 10 deletions): the old code called `self._next()` and appended one character at a time; the new code locates the next delimiter/backslash with `str.find`, copies the whole run as one slice, and joins the chunks. For a 128 KB literal that removes ~131k Python-level loop iterations. Short expressions are unaffected (same order of magnitude, within run-to-run noise); only long quoted identifiers, raw strings and backtick literals hit this path.
+Median speedup across the three scales: **50.36x**. The gain comes from one function, `jmespath/lexer.py::Lexer._consume_until` (32 insertions, 10 deletions): the old code called `self._next()` and appended one character at a time; the new code locates the next delimiter/backslash with `str.find`, copies the whole run as one slice, and joins the chunks. For a 128 KB literal that removes ~131k Python-level loop iterations. The change only touches quoted identifiers, raw strings and backtick literals; no other token type or public API is modified.
 
 Relative standard deviation was 1.1% / 0.3% / 0.4% for the baseline and 9.2% / 13.5% / 8.0% for the optimized build. The optimized medium scale (13.5%) exceeds 10% because each sample is only ~0.15 ms, close to timer and scheduler granularity, with 5 samples per scale; raw samples are kept in `benchmark/raw/`.
 
