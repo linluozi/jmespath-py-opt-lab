@@ -1,0 +1,9 @@
+{
+  "expression_sha256": "3b9487219290a0f11152f01dcbdb5ce1d2e29e66307c120ec640303af9a55de2",
+  "impl": "baseline",
+  "iteration": 2,
+  "payload_bytes": 8192,
+  "scale": "small",
+  "seconds": 0.0019419929012656212,
+  "seed": 20261031
+}

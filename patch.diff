@@ -1,0 +1,59 @@
+diff --git a/jmespath/lexer.py b/jmespath/lexer.py
+index 8db05e3..990f977 100644
+--- a/jmespath/lexer.py
++++ b/jmespath/lexer.py
+@@ -138,22 +138,44 @@ class Lexer(object):
+         # Consume until the delimiter is reached,
+         # allowing for the delimiter to be escaped with "\".
+         start = self._position
+-        buff = ''
++        expression = self._expression
++        # Skip the opening delimiter.
+         self._next()
+-        while self._current != delimiter:
+-            if self._current == '\\':
+-                buff += '\\'
+-                self._next()
++        chunks = []
++        while True:
+             if self._current is None:
+                 # We're at the EOF.
+                 raise LexerError(lexer_position=start,
+-                                 lexer_value=self._expression[start:],
++                                 lexer_value=expression[start:],
+                                  message="Unclosed %s delimiter" % delimiter)
+-            buff += self._current
++            if self._current == delimiter:
++                # Skip the closing delimiter.
++                self._next()
++                return ''.join(chunks)
++            if self._current == '\\':
++                # Keep the escaped character exactly as before.
++                chunks.append('\\')
++                self._next()
++                if self._current is None:
++                    raise LexerError(lexer_position=start,
++                                     lexer_value=expression[start:],
++                                     message="Unclosed %s delimiter" % delimiter)
++                chunks.append(self._current)
++                self._next()
++                continue
++            # Copy a whole run of ordinary characters in one slice
++            # instead of advancing and concatenating one char at a time.
++            position = self._position
++            stop = len(expression)
++            delimiter_index = expression.find(delimiter, position)
++            if delimiter_index != -1:
++                stop = delimiter_index
++            escape_index = expression.find('\\', position)
++            if escape_index != -1 and escape_index < stop:
++                stop = escape_index
++            chunks.append(expression[position:stop])
++            self._position = stop - 1
+             self._next()
+-        # Skip the closing delimiter.
+-        self._next()
+-        return buff
+ 
+     def _consume_literal(self):
+         start = self._position

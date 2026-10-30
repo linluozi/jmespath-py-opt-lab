@@ -1,0 +1,88 @@
+{
+  "clock": "time.perf_counter",
+  "command": "benchmark/bench.py --impl baseline",
+  "env": {
+    "cpu_model": "AMD EPYC 7K62 48-Core Processor",
+    "mem_total_kb": 3812564,
+    "platform": "Linux-6.8.0-124-generic-x86_64-with-glibc2.39",
+    "processor_count": 4,
+    "python": "3.12.3",
+    "python_full": "3.12.3 (main, Aug 31 2026, 10:18:26) [GCC 13.3.0]"
+  },
+  "impl": "baseline",
+  "reps": 5,
+  "results": {
+    "large": {
+      "expression_sha256": "16cccf101b09f35f3ce7f15a0e7aaf368c7cc725116d3c8358238f34ec2b53c3",
+      "mean_s": 0.030915846582502127,
+      "median_s": 0.030878080055117607,
+      "p25_s": 0.0308565990999341,
+      "p75_s": 0.030990100000053644,
+      "payload_bytes": 131072,
+      "rel_stdev": 0.004383579369952216,
+      "reps": 5,
+      "samples_s": [
+        0.031104364898055792,
+        0.03075008885934949,
+        0.030878080055117607,
+        0.030990100000053644,
+        0.0308565990999341
+      ],
+      "stdev_s": 0.00013552206728366403,
+      "warmup": 3
+    },
+    "medium": {
+      "expression_sha256": "90ea6e958881c6c787a27c57c88f5447911de688de581bcebc3cb32c70b92d1b",
+      "mean_s": 0.007741648703813553,
+      "median_s": 0.007741938810795546,
+      "p25_s": 0.007739403750747442,
+      "p75_s": 0.007751497905701399,
+      "payload_bytes": 32768,
+      "rel_stdev": 0.003204719778928603,
+      "reps": 5,
+      "samples_s": [
+        0.007751497905701399,
+        0.007739403750747442,
+        0.007771824952214956,
+        0.007703578099608421,
+        0.007741938810795546
+      ],
+      "stdev_s": 2.4809814722628276e-05,
+      "warmup": 3
+    },
+    "small": {
+      "expression_sha256": "3b9487219290a0f11152f01dcbdb5ce1d2e29e66307c120ec640303af9a55de2",
+      "mean_s": 0.0019425825215876103,
+      "median_s": 0.0019419929012656212,
+      "p25_s": 0.0019388268701732159,
+      "p75_s": 0.0019549778662621975,
+      "payload_bytes": 8192,
+      "rel_stdev": 0.01137244852752746,
+      "reps": 5,
+      "samples_s": [
+        0.0019549778662621975,
+        0.0019388268701732159,
+        0.0019419929012656212,
+        0.001968152355402708,
+        0.0019089626148343086
+      ],
+      "stdev_s": 2.20919197372296e-05,
+      "warmup": 3
+    }
+  },
+  "scales": [
+    "small",
+    "medium",
+    "large"
+  ],
+  "seed": 20261031,
+  "upstream_tests": {
+    "after_patch": "991 passed, 1 skipped, 16 warnings in 1.06s",
+    "baseline_maxrss_kb": 39936,
+    "before_patch": "991 passed, 1 skipped, 16 warnings in 1.09s",
+    "command": "python -m pytest tests -q  (run inside the upstream checkout, /tmp/venv/bin/python, pytest 9.2.0)",
+    "note": "Same upstream test files, unmodified. Command was run before and after applying patch.diff.",
+    "patched_maxrss_kb": 40448
+  },
+  "warmup": 3
+}
